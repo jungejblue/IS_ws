@@ -1,0 +1,45 @@
+<!doctype html><html lang="ko"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>네 방법의 정합 결과 비교</title>
+<style>body{font:16px/1.6 system-ui;margin:24px;color:#172536}table{border-collapse:collapse;width:100%;table-layout:fixed}td,th{border:1px solid #ccd5df;padding:10px;vertical-align:top}img{width:100%;background:#111}small{display:block}a{color:#075cab}code{background:#eef3f8}p{max-width:1100px}</style>
+<h1>네 방법 × 다섯 미션</h1>
+<p>Q1·Q2·Q3·E1: 노출 보정·이음선·블렌딩 OFF. E2: 영상별 gain + 최대 가중치 마스크 + 5-band blending. 이미지를 누르면 원본 PNG가 열립니다.</p>
+<p>네 방법 모두 NumPy ray BA를 사용합니다. 기존 brown+lowe baseline의 OpenCV BA와 구현이 다릅니다. APAP는 공통 투영 좌표계 위 Moving DLT 보정의 과제용 확장으로 원 논문 BAMDLT의 완전 재현이 아닙니다.</p>
+<p>시간은 읽기·PNG 저장을 포함한 1회 실행입니다. 아래 결과는 HPatches/UDIS-D 평가가 아니며, fitting 진단 수치도 독립 대응점 정확도가 아닙니다.</p>
+<table><tr><th>미션</th>
+<th>RootSIFT<small><a href="RootSIFT/experiment.json">설정·진단</a></small></th>
+<th>MAGSAC++<small><a href="MAGSAC++/experiment.json">설정·진단</a></small></th>
+<th>RootSIFT+MAGSAC++<small><a href="RootSIFT+MAGSAC++/experiment.json">설정·진단</a></small></th>
+<th>RootSIFT+MAGSAC+++APAP<small><a href="RootSIFT+MAGSAC+++APAP/experiment.json">설정·진단</a></small></th>
+</tr>
+<tr><th>Q1</th>
+<td><a href="RootSIFT/Q1_result.png"><img loading="lazy" src="RootSIFT/previews/Q1.jpg" alt="Q1 RootSIFT"></a><small>1385×580 · 0.12초</small><a href="RootSIFT/Q1_run.log">실행 로그</a></td>
+<td><a href="MAGSAC++/Q1_result.png"><img loading="lazy" src="MAGSAC++/previews/Q1.jpg" alt="Q1 MAGSAC++"></a><small>1385×580 · 0.1초</small><a href="MAGSAC++/Q1_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC++/Q1_result.png"><img loading="lazy" src="RootSIFT+MAGSAC++/previews/Q1.jpg" alt="Q1 RootSIFT+MAGSAC++"></a><small>1385×580 · 0.1초</small><a href="RootSIFT+MAGSAC++/Q1_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC+++APAP/Q1_result.png"><img loading="lazy" src="RootSIFT+MAGSAC+++APAP/previews/Q1.jpg" alt="Q1 RootSIFT+MAGSAC+++APAP"></a><small>1385×580 · 0.14초</small><a href="RootSIFT+MAGSAC+++APAP/Q1_run.log">실행 로그</a></td>
+</tr>
+<tr><th>Q2</th>
+<td><a href="RootSIFT/Q2_result.png"><img loading="lazy" src="RootSIFT/previews/Q2.jpg" alt="Q2 RootSIFT"></a><small>2969×1396 · 0.95초</small><a href="RootSIFT/Q2_run.log">실행 로그</a></td>
+<td><a href="MAGSAC++/Q2_result.png"><img loading="lazy" src="MAGSAC++/previews/Q2.jpg" alt="Q2 MAGSAC++"></a><small>2968×1396 · 1.01초</small><a href="MAGSAC++/Q2_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC++/Q2_result.png"><img loading="lazy" src="RootSIFT+MAGSAC++/previews/Q2.jpg" alt="Q2 RootSIFT+MAGSAC++"></a><small>2978×1398 · 1.11초</small><a href="RootSIFT+MAGSAC++/Q2_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC+++APAP/Q2_result.png"><img loading="lazy" src="RootSIFT+MAGSAC+++APAP/previews/Q2.jpg" alt="Q2 RootSIFT+MAGSAC+++APAP"></a><small>2978×1398 · 1.63초</small><a href="RootSIFT+MAGSAC+++APAP/Q2_run.log">실행 로그</a></td>
+</tr>
+<tr><th>Q3</th>
+<td><a href="RootSIFT/Q3_result.png"><img loading="lazy" src="RootSIFT/previews/Q3.jpg" alt="Q3 RootSIFT"></a><small>4712×2465 · 1.72초</small><a href="RootSIFT/Q3_run.log">실행 로그</a></td>
+<td><a href="MAGSAC++/Q3_result.png"><img loading="lazy" src="MAGSAC++/previews/Q3.jpg" alt="Q3 MAGSAC++"></a><small>4696×2481 · 1.64초</small><a href="MAGSAC++/Q3_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC++/Q3_result.png"><img loading="lazy" src="RootSIFT+MAGSAC++/previews/Q3.jpg" alt="Q3 RootSIFT+MAGSAC++"></a><small>4699×2482 · 1.82초</small><a href="RootSIFT+MAGSAC++/Q3_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC+++APAP/Q3_result.png"><img loading="lazy" src="RootSIFT+MAGSAC+++APAP/previews/Q3.jpg" alt="Q3 RootSIFT+MAGSAC+++APAP"></a><small>4699×2482 · 2.39초</small><a href="RootSIFT+MAGSAC+++APAP/Q3_run.log">실행 로그</a></td>
+</tr>
+<tr><th>E1</th>
+<td><a href="RootSIFT/E1_result.png"><img loading="lazy" src="RootSIFT/previews/E1.jpg" alt="E1 RootSIFT"></a><small>4712×1791 · 1.66초</small><a href="RootSIFT/E1_run.log">실행 로그</a></td>
+<td><a href="MAGSAC++/E1_result.png"><img loading="lazy" src="MAGSAC++/previews/E1.jpg" alt="E1 MAGSAC++"></a><small>4696×1794 · 1.59초</small><a href="MAGSAC++/E1_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC++/E1_result.png"><img loading="lazy" src="RootSIFT+MAGSAC++/previews/E1.jpg" alt="E1 RootSIFT+MAGSAC++"></a><small>4699×1792 · 1.76초</small><a href="RootSIFT+MAGSAC++/E1_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC+++APAP/E1_result.png"><img loading="lazy" src="RootSIFT+MAGSAC+++APAP/previews/E1.jpg" alt="E1 RootSIFT+MAGSAC+++APAP"></a><small>4699×1792 · 2.24초</small><a href="RootSIFT+MAGSAC+++APAP/E1_run.log">실행 로그</a></td>
+</tr>
+<tr><th>E2</th>
+<td><a href="RootSIFT/E2_result.png"><img loading="lazy" src="RootSIFT/previews/E2.jpg" alt="E2 RootSIFT"></a><small>4712×1791 · 1.74초</small><a href="RootSIFT/E2_run.log">실행 로그</a></td>
+<td><a href="MAGSAC++/E2_result.png"><img loading="lazy" src="MAGSAC++/previews/E2.jpg" alt="E2 MAGSAC++"></a><small>4696×1794 · 1.65초</small><a href="MAGSAC++/E2_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC++/E2_result.png"><img loading="lazy" src="RootSIFT+MAGSAC++/previews/E2.jpg" alt="E2 RootSIFT+MAGSAC++"></a><small>4699×1792 · 1.84초</small><a href="RootSIFT+MAGSAC++/E2_run.log">실행 로그</a></td>
+<td><a href="RootSIFT+MAGSAC+++APAP/E2_result.png"><img loading="lazy" src="RootSIFT+MAGSAC+++APAP/previews/E2.jpg" alt="E2 RootSIFT+MAGSAC+++APAP"></a><small>4699×1792 · 2.31초</small><a href="RootSIFT+MAGSAC+++APAP/E2_run.log">실행 로그</a></td>
+</tr>
+</table><p>재실행: <code>python3 -B experiments/run_methods.py</code></p></html>

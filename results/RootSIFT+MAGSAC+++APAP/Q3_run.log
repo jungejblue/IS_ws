@@ -1,0 +1,33 @@
+[Q3] keypoints=[6000, 5191, 6000, 6000, 6000, 6000, 6000, 6000]
+[Q3] algorithm=rootsift_magsac_apap, robust estimator=MAGSAC++; selected inliers passed to ray BA
+[Q3] pair 1-2: inliers=40, confidence=1.970
+[Q3] pair 1-5: inliers=12, confidence=0.984
+[Q3] pair 1-6: inliers=24, confidence=1.519
+[Q3] pair 2-3: inliers=21, confidence=1.409
+[Q3] pair 2-5: inliers=0, confidence=0.000
+[Q3] pair 2-6: inliers=108, confidence=2.313
+[Q3] pair 2-7: inliers=33, confidence=1.675
+[Q3] pair 3-4: inliers=98, confidence=2.620
+[Q3] pair 3-6: inliers=21, confidence=1.235
+[Q3] pair 3-7: inliers=118, confidence=2.189
+[Q3] pair 3-8: inliers=4, confidence=0.435
+[Q3] pair 4-7: inliers=12, confidence=0.984
+[Q3] pair 4-8: inliers=40, confidence=1.717
+[Q3] pair 5-6: inliers=405, confidence=3.092
+[Q3] pair 6-7: inliers=51, confidence=1.984
+[Q3] pair 7-8: inliers=71, confidence=2.305
+[Q3] NumPy ray BA: fitting RMS 47.0329 -> 4.1593px, steps=7
+[Q3] focal_px=[1015.38, 978.49, 1030.82, 1089.87, 1039.06, 977.54, 1028.27, 1102.16]
+[Q3] field of view exceeds the common plane; switching to ONE shared cylinder
+[Q3] APAP Moving DLT image 1: controls=62, max displacement=5.23px, control inverse residual 1.902->0.574px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 2: controls=195, max displacement=6.92px, control inverse residual 1.023->0.342px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 3: controls=246, max displacement=6.20px, control inverse residual 1.791->0.620px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 4: controls=138, max displacement=6.28px, control inverse residual 2.019->0.392px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 5: controls=401, max displacement=15.75px, control inverse residual 1.027->0.160px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 6: controls=595, max displacement=14.56px, control inverse residual 1.065->0.272px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 7: controls=262, max displacement=23.14px, control inverse residual 2.303->0.694px (fitting diagnostic, not benchmark)
+[Q3] APAP Moving DLT image 8: controls=111, max displacement=12.26px, control inverse residual 3.319->1.731px (fitting diagnostic, not benchmark)
+[Q3] Brown-Lowe assignment baseline: all postprocessing OFF
+[Q3] hard composition: later input wins; no pixel blending
+[Q3] output=4699x2482 (shared cylindrical coordinates, 8/8 images, no planar reprojection)
+[OK] q3 (8장) → /home/jungejblue/IS_ws/results/RootSIFT+MAGSAC+++APAP/Q3_result.png

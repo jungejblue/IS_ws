@@ -1,0 +1,15 @@
+[Q2] keypoints=[6000, 6000, 6000]
+[Q2] pair 1-2: inliers=756, confidence=2.181
+[Q2] pair 1-3: inliers=211, confidence=2.017
+[Q2] pair 2-3: inliers=645, confidence=2.751
+[Q2] focal_px=[1976.64, 1971.25, 1962.38]
+[Q2] alignment 1-2: inliers=756/1129, median=3.23px, p95=6.03px, lower65%+=3.91px (n=52), planar coordinates
+[Q2] alignment 1-3: inliers=211/322, median=5.91px, p95=8.78px, lower65%+=2.12px (n=13), planar coordinates
+[Q2] alignment 2-3: inliers=645/755, median=2.50px, p95=6.76px, lower65%+=3.73px (n=102), planar coordinates
+[Q2] Brown-Lowe assignment baseline: all postprocessing OFF
+[Q2] hard composition: later input wins; no pixel blending
+[Q2] planar mosaic=3694x1688 (3/3 images)
+[Q2] reprojecting ONE completed planar mosaic to ONE cylinder
+[Q2] cylindrical canvas=2968x1395, no crop (full reprojected image)
+[Q2] output=2968x1395 (planar stitching -> cylindrical reprojection, 3/3 images)
+[OK] q2 (3장) → /home/jungejblue/IS_ws/results/brown+lowe/Q2_result.png

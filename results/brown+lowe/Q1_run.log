@@ -1,0 +1,5 @@
+[Q1] keypoints=[1683, 1446], matches=734, inliers=720/734
+[Q1] Brown-Lowe assignment baseline: all postprocessing OFF
+[Q1] hard composition: later input wins; no pixel blending
+[Q1] output=1385x580 (planar)
+[OK] q1 (2장) → /home/jungejblue/IS_ws/results/brown+lowe/Q1_result.png

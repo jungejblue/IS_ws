@@ -50,10 +50,16 @@ test_*.py
 *.local.toml
 /team*.zip
 
-# Course/team photos and downloaded benchmarks stay on disk, outside Git.
+# Track Q1/Q2/Q3 input photos; keep benchmarks and other data local.
 /data/*
 !/data/README.md
 !/data/benchmark_sources.json
+!/data/Q[123]/
+/data/Q[123]/*
+!/data/Q[123]/*.[jJ][pP][gG]
+!/data/Q[123]/*.[jJ][pP][eE][gG]
+!/data/Q[123]/*.[pP][nN][gG]
+!/data/Q[123]/*.[bB][mM][pP]
 
 # New runs, scratch files and submission archives are local artifacts.
 /tmp/

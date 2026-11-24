@@ -27,6 +27,7 @@ def digest(path):
 def main():
     out = ROOT / "results" / "brown+lowe"
     out.mkdir(parents=True, exist_ok=True)
+    (out / "previews").mkdir(exist_ok=True)
     source = ROOT / "stitching.py"
     snapshot = out / "stitching_snapshot.py"
     snapshot.write_text(source.read_text(encoding="utf-8") +
@@ -85,6 +86,10 @@ def main():
                 raise RuntimeError(f"Invalid saved result: {label}")
             record.update(width=image.shape[1], height=image.shape[0],
                           output=png.name, output_sha256=digest(png))
+            factor = min(1.0, 800 / max(image.shape[:2]))
+            preview = cv2.resize(image, None, fx=factor, fy=factor, interpolation=cv2.INTER_AREA)
+            if not cv2.imwrite(str(out / "previews" / f"{label}.jpg"), preview):
+                raise RuntimeError(f"Preview write failed: {label}")
         manifest["missions"].append(record)
         print(f"{label}: {status['status']}, {status['seconds']}s -> {out / (label + '_result.png')}", flush=True)
     (out / "experiment.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")

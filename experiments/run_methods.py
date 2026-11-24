@@ -49,7 +49,7 @@ def gallery():
              '<title>네 방법의 정합 결과 비교</title>',
              '<style>body{font:16px/1.6 system-ui;margin:24px;color:#172536}table{border-collapse:collapse;width:100%;table-layout:fixed}td,th{border:1px solid #ccd5df;padding:10px;vertical-align:top}img{width:100%;background:#111}small{display:block}a{color:#075cab}code{background:#eef3f8}p{max-width:1100px}</style>',
              '<h1>네 방법 × 다섯 미션</h1>',
-             '<p>Q1·Q2·Q3·E1: 노출 보정·이음선·블렌딩 OFF. E2: 영상별 gain + 최대 가중치 마스크 + 5-band blending. 이미지를 누르면 원본 PNG가 열립니다.</p>',
+             '<p>Q1·Q2·Q3·E1: 노출 보정·이음선·블렌딩 OFF. E2: 영상별 gain + 최대 가중치 마스크 + 5-band blending. 이미지를 누르면 미리보기 JPG가 열립니다. 고해상도 PNG는 로컬에서 재생성합니다.</p>',
              '<p>네 방법 모두 NumPy ray BA를 사용합니다. 기존 brown+lowe baseline의 OpenCV BA와 구현이 다릅니다. APAP는 공통 투영 좌표계 위 Moving DLT 보정의 과제용 확장으로 원 논문 BAMDLT의 완전 재현이 아닙니다.</p>',
              '<p>시간은 읽기·PNG 저장을 포함한 1회 실행입니다. 아래 결과는 HPatches/UDIS-D 평가가 아니며, fitting 진단 수치도 독립 대응점 정확도가 아닙니다.</p>',
              '<table><tr><th>미션</th>']
@@ -63,7 +63,7 @@ def gallery():
             r = next((x for x in m['missions'] if x['question']==q), None)
             if r and r['status']=='ok':
                 folder=m['folder']
-                parts.append(f'<td><a href="{folder}/{label}_result.png"><img loading="lazy" src="{folder}/previews/{label}.jpg" alt="{label} {html.escape(m["name"])}"></a><small>{r["width"]}×{r["height"]} · {r["seconds"]}초</small><a href="{folder}/{label}_run.log">실행 로그</a></td>')
+                parts.append(f'<td><a href="{folder}/previews/{label}.jpg"><img loading="lazy" src="{folder}/previews/{label}.jpg" alt="{label} {html.escape(m["name"])}"></a><small>{r["width"]}×{r["height"]} · {r["seconds"]}초</small><a href="{folder}/experiment.json">실행 설정·기록</a></td>')
             else:
                 parts.append('<td>미실행 또는 오류</td>')
         parts.append('</tr>')

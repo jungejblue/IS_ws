@@ -1,0 +1,17 @@
+{
+  "description": "Reference archive locations and expected SHA-256 for reproducible dataset preparation; not evaluation scores.",
+  "downloads": {
+    "hpatches-sequences-release.zip": {
+      "source_url": "https://huggingface.co/datasets/vbalnt/hpatches/resolve/main/hpatches-sequences-release.zip?download=true",
+      "bytes": 1279545572,
+      "sha256": "99cf7e1ca167896eb4ca2fe3d903beff6566243a3c0c8e07a13a2596648ad670",
+      "content_type": "application/zip"
+    },
+    "udis_testing.zip": {
+      "source_url": "https://drive.usercontent.google.com/download?id=1unnBdPg9Vi12-1xXoUdzMub_XUq7yZz0&export=download&confirm=t",
+      "bytes": 203439521,
+      "sha256": "7e7b6c0b930a18e177b83409680f57077f7d92a84d3f66a26c81a03d4eea3478",
+      "content_type": "application/octet-stream"
+    }
+  }
+}

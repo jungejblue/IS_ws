@@ -1,0 +1,9 @@
+[submodule "third_party/hpatches-dataset"]
+	path = third_party/hpatches-dataset
+	url = https://github.com/hpatches/hpatches-dataset.git
+[submodule "third_party/udis-d"]
+	path = third_party/udis-d
+	url = https://github.com/nie-lang/UnsupervisedDeepImageStitching.git
+[submodule "third_party/udis2"]
+	path = third_party/udis2
+	url = https://github.com/nie-lang/UDIS2.git

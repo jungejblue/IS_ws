@@ -1,7 +1,0 @@
-[Q1] keypoints=[1683, 1446], matches=727, inliers=724/727
-[Q1] algorithm=rootsift_magsac_apap, estimator=MAGSAC++
-[Q1] APAP Moving DLT image 1: controls=724, max displacement=0.16px, control inverse residual 0.075->0.074px (fitting diagnostic, not benchmark)
-[Q1] Brown-Lowe assignment baseline: all postprocessing OFF
-[Q1] hard composition: later input wins; no pixel blending
-[Q1] output=1385x580 (planar)
-[OK] q1 (2장) → /home/jungejblue/IS_ws/results/RootSIFT+MAGSAC+++APAP/Q1_result.png

@@ -1,2 +1,78 @@
-*.pyc
+# Python environments, caches, and local editor settings.
 __pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.ipynb_checkpoints/
+.eggs/
+*.egg-info/
+build/
+.idea/
+.vscode/
+.codex/
+.agents/
+.claude/
+.aws/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+*.part
+*.log
+tempCodeRunnerFile.py
+
+# Test code was removed; prevent accidental reintroduction of local test files.
+tests/
+test_*.py
+*_test.py
+/.github/workflows/checks.yml
+
+# Machine-specific configuration and submission bundles.
+*.local.yaml
+*.local.yml
+*.local.json
+*.local.toml
+/team*.zip
+
+# Course/team photos and downloaded benchmarks stay on disk, outside Git.
+/data/*
+!/data/README.md
+!/data/input_manifest.json
+!/data/benchmark_sources.json
+
+# New runs, scratch files and submission archives are local artifacts.
+/tmp/
+/outputs/
+/submission/
+/dist/
+# All generated stitching/evaluation artifacts, without per-method exceptions.
+/results/
+/result/
+/artifacts/
+/reports/
+*_result.png
+*_run.log
+*_status.json
+
+# Only declared upstream submodules and their guide belong in third_party.
+/third_party/*
+!/third_party/README.md
+!/third_party/hpatches-dataset
+!/third_party/udis-d
+!/third_party/udis2

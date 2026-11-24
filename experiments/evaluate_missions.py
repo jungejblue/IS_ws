@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 
 import evaluate_benchmarks as evaluation
+from run_methods import course_runner
 
 
 def layers_for(mod,paths,label):
@@ -44,7 +45,9 @@ def main():
     for folder,mod in zip(evaluation.FOLDERS,evaluation.MODULES):
         for label in ['Q1','Q2','Q3','E1','E2']:
             data=root/'data'/('Q3' if label.startswith('E') else label)
-            paths=sorted(str(p) for p in data.iterdir() if p.suffix.lower() in ['.jpg','.jpeg','.png','.bmp'])
+            paths=[str(p) for p in sorted(
+                (p for p in data.iterdir() if p.is_file() and p.suffix.lower() in course_runner.IMG_EXT),
+                key=course_runner.natural_key)]
             if hasattr(mod,'EXPERIMENT_DIAGNOSTICS'):mod.EXPERIMENT_DIAGNOSTICS.clear()
             layers=layers_for(mod,paths,label)
             n=len(paths)

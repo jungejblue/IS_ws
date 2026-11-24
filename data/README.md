@@ -1,6 +1,6 @@
 # 입력 데이터
 
-원본 사진과 외부 벤치마크는 로컬에 보관하며 Git에서는 이 문서, [입력 manifest](input_manifest.json), [벤치마크 배포 설정](benchmark_sources.json)만 관리합니다.
+원본 사진과 외부 벤치마크는 로컬에 보관하며 Git에서는 이 문서와 [벤치마크 배포 설정](benchmark_sources.json)만 관리합니다.
 
 ```text
 data/
@@ -12,14 +12,13 @@ data/
    └─ testing/input1/, testing/input2/
 ```
 
-Q1/Q2는 과제에서 제공한 사진을, Q3는 팀이 촬영한 사진을 팀 내부 전달 경로로 받아 넣습니다. 기존 결과를 재현하려면 manifest와 같은 원본이 필요합니다. 새로운 Q3 사진은 해시가 달라지므로 별도 실험으로 취급합니다.
+Q1은 겹치는 사진 2장, Q2는 3장, Q3는 8장을 준비합니다. 위 파일명은 예시이며 실행기는 파일명의 숫자를 자연순으로 정렬합니다. 자신의 사진을 사용할 수 있으며, Q3는 아래 촬영 순서를 맞추세요.
 
 ```bash
 python scripts/check_environment.py --data
-python scripts/check_environment.py --data --reference-inputs
 ```
 
-Q3는 2×4 raster order, 윗줄 왼쪽부터 1~4, 아랫줄 5~8입니다. `.jpg`, `.jpeg`, `.png`, `.bmp`는 실행기가 지원합니다. 과제 제출본 파일명은 `.jpg`로 맞춥니다.
+Q3는 2행 4열로 촬영합니다. 윗줄 왼쪽에서 오른쪽으로 1–4번, 아랫줄 왼쪽에서 오른쪽으로 5–8번 순서입니다. `.jpg`, `.jpeg`, `.png`, `.bmp`는 실행기가 지원합니다. 과제 제출본 파일명은 `.jpg`로 맞춥니다.
 
 ## 외부 벤치마크 준비
 
@@ -39,4 +38,4 @@ python scripts/prepare_benchmarks.py
 
 다운로드 스크립트는 압축을 받으며, 해제는 별도 명령입니다. `prepare_benchmarks.py`는 [배포처·해시 설정](benchmark_sources.json)의 해시와 전체 파일 목록·내용을 확인합니다. 이미 해제된 정상 파일은 다시 쓰지 않으며 충돌 파일은 덮어쓰지 않습니다.
 
-전체 HPatches 116개 시퀀스의 580쌍을 사용했습니다. UDIS-D 테스트 압축은 `input1/000001.jpg`가 없어 완전한 1,105쌍을 사용했습니다. 반드시 **같은 파일명**으로 짝을 구성합니다. 배포 내용이 변경되어 해시가 다르면 기존 평가를 그대로 재현하는 데이터로 취급하지 말고 출처·누락 상태를 다시 기록합니다.
+기록된 배포본은 HPatches 116개 시퀀스·580쌍과 UDIS-D의 완전한 1,105쌍을 포함합니다. UDIS-D 압축에는 `input1/000001.jpg`가 없습니다. 반드시 **같은 파일명**으로 짝을 구성합니다. 배포 내용이 변경되어 해시가 다르면 기존 평가를 그대로 재현하는 데이터로 취급하지 말고 출처·누락 상태를 다시 기록합니다. 다운로드는 `experiments/download_benchmarks.py`, 압축 해제는 `scripts/prepare_benchmarks.py`가 담당합니다.

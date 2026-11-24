@@ -53,7 +53,6 @@ test_*.py
 # Course/team photos and downloaded benchmarks stay on disk, outside Git.
 /data/*
 !/data/README.md
-!/data/input_manifest.json
 !/data/benchmark_sources.json
 
 # New runs, scratch files and submission archives are local artifacts.

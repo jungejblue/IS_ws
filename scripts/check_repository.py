@@ -66,7 +66,7 @@ def main():
     prospective = {p for p in candidates-ignored if (ROOT/p).is_file()}
     errors = check_contract(ROOT/'stitching.py')
     if ignored and not args.allow_tracked_local:
-        errors.append(f'{len(ignored)} tracked local artifacts match .gitignore; untrack without deleting local data (docs/git_guide.md)')
+        errors.append(f'{len(ignored)} tracked local artifacts match .gitignore; untrack without deleting local data (docs/running.md)')
     checked_links = 0
     for relative in sorted(prospective):
         path = ROOT/relative

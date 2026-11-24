@@ -215,7 +215,9 @@ def source_samples(saved, capture, label):
 def evaluate_one(folder, label):
     base = ROOT/'results'/folder
     manifest = json.loads((base/'experiment.json').read_text())
-    record = next(r for r in manifest['missions'] if r['output'] == label+'_result.png')
+    record = next((r for r in manifest['missions'] if r.get('output') == label+'_result.png' and r.get('status') == 'ok'), None)
+    if record is None:
+        raise ValueError(f'{folder}: successful {label} output missing; run experiments/run_methods.py --q all')
     saved_path = base/record['output']
     assert sha(saved_path) == record['output_sha256'], f'PNG changed: {saved_path}'
     assert sha(base/'stitching_snapshot.py') == manifest['snapshot_sha256']
@@ -291,7 +293,7 @@ def report(records):
             f"{next(r for r in records if r['method']==folder and r['mission']=='E2')['source_consistency_ssim']-next(r for r in records if r['method']==folder and r['mission']=='E1')['source_consistency_ssim']:+.4f}"] for folder in METHODS]),
         '<h2>정답이 없어 산출하지 않은 항목</h2><p>독립 대응점 위치 오차, Corner error, H 성공률/AUC는 산출 불가(null)다. 정합 코드가 스스로 추정한 변환을 정답으로 사용하지 않았다. 모든 원본 위치가 서로 어떻게 대응하는지에 대한 독립 정답이 없기 때문이다. 성공적인 PNG 재현 20/20은 정합 정확도 100%를 의미하지 않는다.</p>',
         '<p>기존 외부 데이터셋 점수와 이 점수는 데이터·참조·평가 영역이 다르므로 직접 비교하지 않는다. 미션 간 총점이나 순위도 만들지 않았다. 이전 mission_summary.csv는 최종 PNG가 아닌 후처리 전 입력 간 일치도이며 이 표와 다른 지표다.</p>',
-        '<h2>대표 입력의 비교와 오차 지도</h2><p>같은 미션의 네 방법은 같은 원본 사진·같은 평가 마스크를 보여 준다. 회색은 제외 영역이다. 오차 지도는 채널 평균 절대 차이 0~50 이상/255를 공통 색상 범위로 표시한다.</p>']
+        '<h2>대표 입력의 비교와 오차 지도</h2><p>같은 미션의 네 방법은 같은 원본 사진·같은 평가 마스크를 보여 준다. 회색은 제외 영역이다. 오차 지도는 채널 평균 절대 차이 0에서 50/255까지(상한 초과 값은 같은 색상)를 공통 색상 범위로 표시한다.</p>']
     for r in records:
         preview = r['png'].replace(f'/{r["mission"]}_result.png', f'/previews/{r["mission"]}.jpg')
         parts.append(f'<h3>{html.escape(r["method"])} / {r["mission"]} / 입력 {r["diagnostic_source"]}</h3><a href="../../{html.escape(preview)}">평가한 결과의 미리보기</a><br><img loading="lazy" src="{html.escape(r["diagnostic_image"])}">')
@@ -312,7 +314,7 @@ def main():
                   [round(float(s['valid'].mean()), 3) for s in samples], flush=True)
         return
     preserved = {str(p.relative_to(ROOT)):sha(p) for folder in [*METHODS, 'brown+lowe']
-                 for p in (ROOT/'results'/folder).iterdir() if p.suffix=='.png' or p.name=='stitching_snapshot.py'}
+                 for p in (ROOT/'results'/folder).glob('*') if p.suffix=='.png' or p.name=='stitching_snapshot.py'}
     records = []
     # E1 and E2 intentionally share the exact same original-input scoring masks.
     for labels in [['Q1'], ['Q2'], ['Q3'], ['E1', 'E2']]:

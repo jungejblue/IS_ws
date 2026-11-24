@@ -8,6 +8,7 @@ import concurrent.futures
 import hashlib
 import importlib.util
 import json
+import os
 import math
 import os
 import time
@@ -204,21 +205,32 @@ def evaluate_pair(task):
                 height=h,width=w,common_scoring_valid=enough,methods=records)
 
 
-def build_manifest():
+def build_manifest(dataset='all'):
     tasks=[]
-    for seq in sorted((DATA/'hpatches-sequences-release').iterdir()):
-        if not seq.is_dir():continue
-        for i in range(2,7):
-            images=[seq/'1.ppm',seq/f'{i}.ppm']
-            gt=seq/f'H_1_{i}'
-            tasks.append(dict(dataset='hpatches',id=f'{seq.name}/1-{i}',group=seq.name[0],
-                images=[str(p.relative_to(ROOT)) for p in images],
-                image_sha256=[sha(p) for p in images],homography=str(gt.relative_to(ROOT)),homography_sha256=sha(gt)))
-    for a in sorted((DATA/'testing/input1').glob('*.jpg')):
-        b=DATA/'testing/input2'/a.name
-        if not b.exists():raise ValueError('Unpaired UDIS image '+a.name)
-        tasks.append(dict(dataset='udis_d',id=a.stem,images=[str(p.relative_to(ROOT)) for p in [a,b]],
-                          image_sha256=[sha(p) for p in [a,b]]))
+    if dataset in ('all', 'hpatches'):
+        directory=DATA/'hpatches-sequences-release'
+        if not directory.is_dir():
+            raise ValueError('HPatches data missing; see data/README.md')
+        for seq in sorted(directory.iterdir()):
+            if not seq.is_dir():continue
+            for i in range(2,7):
+                images=[seq/'1.ppm',seq/f'{i}.ppm']
+                gt=seq/f'H_1_{i}'
+                if not all(p.is_file() for p in [*images,gt]):
+                    raise ValueError(f'Incomplete HPatches sequence: {seq.name}')
+                tasks.append(dict(dataset='hpatches',id=f'{seq.name}/1-{i}',group=seq.name[0],
+                    images=[str(p.relative_to(ROOT)) for p in images],
+                    image_sha256=[sha(p) for p in images],homography=str(gt.relative_to(ROOT)),homography_sha256=sha(gt)))
+        if not tasks:raise ValueError('No HPatches pairs found')
+    if dataset in ('all', 'udis_d'):
+        first={p.name:p for p in (DATA/'testing/input1').glob('*.jpg')}
+        second={p.name:p for p in (DATA/'testing/input2').glob('*.jpg')}
+        names=sorted(first.keys() & second.keys())
+        if not names:raise ValueError('No complete UDIS-D pairs found; see data/README.md')
+        for name in names:
+            images=[first[name],second[name]]
+            tasks.append(dict(dataset='udis_d',id=first[name].stem,
+                images=[str(p.relative_to(ROOT)) for p in images],image_sha256=[sha(p) for p in images]))
     return tasks
 
 
@@ -262,8 +274,12 @@ def main():
     parser.add_argument('--limit',type=int,default=0)
     parser.add_argument('--resume',action='store_true')
     args=parser.parse_args()
-    OUT.mkdir(parents=True,exist_ok=True)
-    tasks=build_manifest()
+    if args.workers < 1 or args.limit < 0:
+        parser.error('--workers must be positive; --limit must be nonnegative')
+    try:
+        tasks=build_manifest(args.dataset)
+    except (ValueError, FileNotFoundError) as exc:
+        parser.error(str(exc))
     # Results are not shipped with the repository. Generate dataset audit metadata
     # from actual local inputs so the report also works after a fresh clone.
     first={p.name for p in (DATA/'testing/input1').glob('*.jpg')}
@@ -277,11 +293,11 @@ def main():
         downloads=sources['downloads'],
         download_hash_note='Expected reference hashes; verify local archives with scripts/prepare_benchmarks.py',
         policy='Pair by identical filenames; never fabricate a missing pair')
-    (OUT/'dataset_integrity.json').write_text(json.dumps(integrity,indent=2),encoding='utf-8')
     if args.dataset!='all':tasks=[x for x in tasks if x['dataset']==args.dataset]
     if args.limit:tasks=tasks[:args.limit]
     protocol=dict(version=1,scope='Frozen Q1 pairwise geometry/warping benchmark, not multi-image BA or final blend quality',
         evaluator_sha256=sha(Path(__file__)),opencv=cv2.__version__,numpy=np.__version__,workers=args.workers,
+        thread_environment={k:os.environ.get(k) for k in ['OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','VECLIB_MAXIMUM_THREADS','NUMEXPR_NUM_THREADS']},
         methods={folder:sha(method_code(folder)) for folder in FOLDERS},
         method_paths={folder:str(method_code(folder).relative_to(ROOT)) for folder in FOLDERS},
         selected_counts={name:sum(x['dataset']==name for x in tasks) for name in ['hpatches','udis_d']},
@@ -298,11 +314,24 @@ def main():
         unavailable='UDIS-D has no true global H or independent landmark GT: corner/point accuracy remains null.',
         aggregation='Pair macro means for photometric metrics/RMSE; median of per-pair medians/P95/corner errors for reported median values. HPatches includes 5 pairs per scene.',
         tasks=tasks)
-    (OUT/'benchmark_protocol.json').write_text(json.dumps(protocol,indent=2),encoding='utf-8')
     path=OUT/'benchmark_pairs.jsonl'
     rows=[]
     if args.resume and path.exists():
+        previous=OUT/'benchmark_protocol.json'
+        if not previous.is_file():parser.error('Cannot resume without benchmark_protocol.json')
+        old=json.loads(previous.read_text())
+        # Worker count can change; input selection, code and scoring conditions cannot.
+        comparable=lambda p: {k:v for k,v in p.items() if k != 'workers'}
+        if comparable(old) != comparable(protocol):
+            parser.error('Resume conditions changed (inputs, code, environment or protocol); use a separate run directory')
         rows=[json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+        keys=[(r['dataset'],r['id']) for r in rows]
+        selected={(t['dataset'],t['id']) for t in tasks}
+        if len(keys) != len(set(keys)) or not set(keys) <= selected:
+            parser.error('Resume data contains duplicate or unselected pairs')
+    OUT.mkdir(parents=True,exist_ok=True)
+    (OUT/'dataset_integrity.json').write_text(json.dumps(integrity,indent=2),encoding='utf-8')
+    (OUT/'benchmark_protocol.json').write_text(json.dumps(protocol,indent=2),encoding='utf-8')
     done={(x['dataset'],x['id']) for x in rows}
     pending=[x for x in tasks if (x['dataset'],x['id']) not in done]
     start=time.monotonic()

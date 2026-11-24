@@ -1,68 +1,71 @@
 # 실행과 실험 재현
 
-모든 명령은 저장소 루트에서 실행합니다. [입력 사진 준비](../data/README.md)를 먼저 완료하세요.
+설치는 [README](../README.md), 사진과 벤치마크 준비는 [데이터 안내](../data/README.md)를 따릅니다. 모든 명령은 저장소 루트 기준입니다.
 
-## 루트 코드와 동결 스냅샷
-
-`stitching.py`는 개발·제출 대상이고 `run.py`는 수정하지 않는 과제 실행기입니다. 실험별 `experiments/snapshots/<방법>.py`는 당시 설정까지 포함한 재현용 파일입니다.
+## 한 방법·한 미션 실행
 
 ```bash
-# 현재 개발 코드: 루트 기본 프로필 사용
-python -B run.py --q 1 --out results/local/dev
-
-# 발표 비교에 사용한 APAP 프로필
-python -B run.py --q all \
+python -B run.py --q 1 \
   --code experiments/snapshots/RootSIFT+MAGSAC+++APAP.py \
+  --input /path/to/two-photos \
   --out results/local/apap
-
-# 한 미션을 다른 입력으로 실행
-python -B run.py --q 3 --input /path/to/eight-photos \
-  --code experiments/snapshots/RootSIFT+MAGSAC+++APAP.py \
-  --out results/local/new-q3
 ```
 
-`--q`는 `1`, `2`, `3`, `e1`, `e2`, `all`입니다. 실행기는 번호를 자연순으로 정렬하며 `[OK]`는 함수 실행·반환 형식 통과를 의미합니다.
+`--input`을 생략하면 Q1은 `data/Q1`, Q2는 `data/Q2`, Q3·E1·E2는 `data/Q3`를 사용합니다. `--q`에는 `1`, `2`, `3`, `e1`, `e2`, `all`을 지정합니다. 전체 미션을 실행할 때는 `--input`을 생략하고 세 폴더를 모두 준비하세요.
 
-| 방법 | 코드 경로 |
-| --- | --- |
-| Brown–Lowe 기반 baseline | `experiments/snapshots/brown+lowe.py` |
-| RootSIFT | `experiments/snapshots/RootSIFT.py` |
-| MAGSAC++ | `experiments/snapshots/MAGSAC++.py` |
-| RootSIFT + MAGSAC++ | `experiments/snapshots/RootSIFT+MAGSAC++.py` |
-| 위 조합 + APAP | `experiments/snapshots/RootSIFT+MAGSAC+++APAP.py` |
+`run.py`는 PNG와 상태 JSON만 저장합니다. 최종 PNG 평가에 필요한 코드·입력 해시와 실행 메타데이터는 아래 방법별 실행기로 생성합니다.
 
-새 실험의 출력에는 `results/local/<이니셜>/<실험명>`을 사용합니다. 비교용 기존 스냅샷을 직접 고치지 말고 루트 코드를 수정하거나 새 스냅샷을 만드세요.
-
-## 기존 고해상도 PNG 복원
-
-Git에는 재현용 실행 소스와 입력 manifest만 있습니다. 이미지·실행 메타데이터·평가 기록은 포함되지 않습니다. 아래 명령은 동결 코드로 PNG를 다시 생성합니다. 기존 메타데이터가 로컬에 남아 있다면 같은 입력·환경에서 비교할 수 있습니다.
+## 고정 코드로 비교 실험 재현
 
 ```bash
-python -B run.py --q all --code experiments/snapshots/RootSIFT.py --out results/RootSIFT
-python -B run.py --q all --code experiments/snapshots/MAGSAC++.py --out results/MAGSAC++
-python -B run.py --q all --code experiments/snapshots/RootSIFT+MAGSAC++.py --out results/RootSIFT+MAGSAC++
-python -B run.py --q all --code experiments/snapshots/RootSIFT+MAGSAC+++APAP.py --out results/RootSIFT+MAGSAC+++APAP
-python -B run.py --q all --code experiments/snapshots/brown+lowe.py --out results/brown+lowe
-```
-
-사진이나 라이브러리가 다르면 파일이 생성되더라도 기존 `experiment.json`의 해시와 일치하지 않을 수 있습니다. 그런 결과를 기존 정량 평가와 같은 실행이라고 기록하지 않습니다.
-
-## 비교 실험을 새로 생성할 때
-
-```bash
-python -B experiments/run_methods.py --method rootsift_magsac_apap --q all
+# 다섯 방법 × 다섯 미션 = PNG 25개
 python -B experiments/run_methods.py --method all --q all
-python -B experiments/run_brown_lowe.py
+
+# 기준 방법 또는 특정 개선 방법만 실행
+python -B experiments/run_methods.py --method brown_lowe --q all
+python -B experiments/run_methods.py --method rootsift_magsac_apap --q all
+
+# 입력·환경을 빠르게 확인하는 Q1 실행
+python -B experiments/run_methods.py --method all --q 1
 ```
 
-이 실행기들은 **현재 루트 `stitching.py`에서 스냅샷·메타데이터·결과를 다시 생성하고 해당 방법 폴더를 갱신**합니다. 과거 실험 재생과 다릅니다. 갱신이 목적일 때만 실행하고, PR에서 코드·입력·설정·점수를 함께 검토합니다. `run_methods.py`의 일부 미션 실행은 해당 실행의 manifest만 다시 기록하므로, 비교 기록을 공식 갱신할 때는 `--q all`을 사용합니다.
+| `--method` | 고정 소스 (`experiments/snapshots/`) | 결과 폴더 (`results/`) |
+| --- | --- | --- |
+| `brown_lowe` | `brown+lowe.py` | `brown+lowe/` |
+| `rootsift` | `RootSIFT.py` | `RootSIFT/` |
+| `magsac` | `MAGSAC++.py` | `MAGSAC++/` |
+| `rootsift_magsac` | `RootSIFT+MAGSAC++.py` | `RootSIFT+MAGSAC++/` |
+| `rootsift_magsac_apap` | `RootSIFT+MAGSAC+++APAP.py` | `RootSIFT+MAGSAC+++APAP/` |
 
-## 출력
+기본 `--source frozen`은 고정 소스를 바이트 그대로 복사해 실행합니다. 실행 기록에 실제 소스 경로·해시·입력 순서·해시·환경을 저장합니다. 동일한 절차를 자신의 사진으로 수행할 수 있지만, 사진이나 환경이 다르면 과거 이미지·점수와 일치한다고 보장하지 않습니다.
 
-```text
-results/local/apap/
-├─ Q1_result.png ... E2_result.png
-└─ Q1_status.json ... E2_status.json
+## 수정한 코드로 새 실험
+
+루트 `stitching.py`를 수정한 뒤 다음과 같이 실행합니다.
+
+```bash
+python -B experiments/run_methods.py --source current --method rootsift_magsac_apap --q all
 ```
 
-`run.py`는 `experiment.json`을 만들지 않습니다. 최종 PNG 평가에 필요한 전체 실험 메타데이터와 미리보기 생성은 `experiments/` 실행기가 담당합니다. 새 clone에서 평가하려면 입력을 준비하고 `experiments/run_brown_lowe.py`와 `experiments/run_methods.py --method all --q all`을 모두 실행하세요. [평가 재현](evaluation.md)
+이 모드는 현재 루트 소스에 비교 프로필과 선택한 방법 설정을 추가해 실행합니다. 고정 버전 재현과 구분하도록 `source_mode`가 기록됩니다. 기준 방법도 `--method brown_lowe`로 명시적으로 선택합니다.
+
+## 출력과 보존
+
+각 방법 폴더에는 미션별 `Q1_result.png` 등의 이미지, `Q1_status.json`, `Q1_run.log`, `previews/`, 실행 소스 `stitching_snapshot.py`, 메타데이터 `experiment.json`이 생성됩니다. `results/comparison.html`은 방법별 결과 갤러리입니다.
+
+실행기는 선택한 방법 폴더를 갱신합니다. `--q 1` 같은 부분 실행도 해당 방법의 `experiment.json`을 새로 쓰므로, 전체 평가 전에는 `--q all`로 생성하세요. 보존할 실험은 다른 경로에 복사한 후 실행합니다. `results/` 전체는 Git에서 제외되며 새 clone에는 생성 결과가 없습니다.
+
+`[OK]`는 함수 실행과 반환 형식이 통과했다는 의미입니다. 정합 성능은 [평가 절차](evaluation.md)와 영상 관찰로 확인합니다.
+
+## 보조 도구와 오류 확인
+
+| 명령 | 용도 |
+| --- | --- |
+| `python -B scripts/check_environment.py` | Python·OpenCV 필수 API 확인 |
+| `python -B scripts/check_environment.py --data` | Q1·Q2·Q3 사진 장수와 디코딩 확인 |
+| `python -B scripts/check_repository.py` | 제출 인터페이스·문서 링크·Git 추적 정책 검사 |
+| `python -B scripts/prepare_benchmarks.py` | 배포본 해시·경로 검사 후 압축 해제 |
+
+사진은 `.jpg`, `.jpeg`, `.png`, `.bmp`를 지원합니다. 환경 검사와 정합 실행에는 OpenCV 배포판을 하나만 설치하세요. `opencv-python`과 `opencv-contrib-python-headless`를 중복 설치하면 동일한 `cv2` 모듈을 공유합니다. 이 프로젝트는 `requirements.txt`의 headless contrib 패키지를 사용합니다.
+
+Q3 실패 시 장수·순서·중첩 영역을 먼저 확인하세요. 같은 결과를 재현할 때는 라이브러리 버전과 BLAS 스레드 설정도 유지해야 합니다. Matplotlib 캐시 경로가 쓰기 불가능하면 `MPLCONFIGDIR=/tmp/is-ws-matplotlib`처럼 쓰기 가능한 경로를 지정합니다.

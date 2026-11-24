@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | `third_party/hpatches-dataset` | [hpatches/hpatches-dataset](https://github.com/hpatches/hpatches-dataset) | HPatches 데이터·정답 H·배포 안내 |
 | `third_party/udis-d` | [nie-lang/UnsupervisedDeepImageStitching](https://github.com/nie-lang/UnsupervisedDeepImageStitching) | UDIS-D 데이터 배포 안내와 원 논문 코드 |
-| `third_party/udis2` | [nie-lang/UDIS2](https://github.com/nie-lang/UDIS2) | 기존 평가에서 참고한 마스크·PSNR·SSIM 평가 코드 |
+| `third_party/udis2` | [nie-lang/UDIS2](https://github.com/nie-lang/UDIS2) | 마스크·PSNR·SSIM 평가 참조 코드 |
 
 ## 가져오기
 
@@ -31,4 +31,4 @@ git submodule status --recursive
 
 외부 저장소는 배포 안내·평가 코드 참고용입니다. 본 프로젝트의 과제 및 평가 실행기는 서브모듈 코드를 import하지 않으며, TensorFlow·PyTorch 모델을 실행하지 않습니다. 외부 저장소의 requirements나 environment.yml을 과제 환경에 설치할 필요가 없습니다. 외부 저장소에 포함된 테스트·예제·이미지는 원 저자의 구성으로 유지하며 상위 저장소에서는 개별 파일을 추적하지 않습니다.
 
-Q1~E2 정합은 서브모듈을 초기화하지 않아도 입력 사진과 프로젝트 의존성만 준비하면 실행할 수 있습니다. 평가기는 별도로 준비한 데이터와 본 프로젝트의 OpenCV·NumPy 코드를 사용합니다.
+Q1·Q2·Q3·E1·E2 정합은 서브모듈을 초기화하지 않아도 입력 사진과 프로젝트 의존성만 준비하면 실행할 수 있습니다. 평가기는 별도로 준비한 데이터와 본 프로젝트의 OpenCV·NumPy 코드를 사용합니다.

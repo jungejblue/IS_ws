@@ -106,10 +106,14 @@ Q3 촬영 안내는 이웃 사진 사이 20~30% 중첩을 두고, 아래 순서�
 
 ```text
 IS_ws/
-├─ PROJECT_REPORT.md                  # 현재 통합 문서
-├─ 이미지스티칭_프로젝트_안내.pdf
+├─ README.md                          # 설치·실행·협업 안내
 ├─ stitching.py                       # 제출용 알고리즘 구현
 ├─ run.py                             # 제공 실행기, 수정 금지
+├─ requirements.txt                   # 프로젝트 의존성
+├─ docs/
+│  ├─ PROJECT_REPORT.md               # 현재 통합 문서
+│  ├─ assignment/                     # 과제 공지 PDF
+│  └─ research/stitching_comparison.html # 초기 조사·실험 설계 기록
 ├─ data/
 │  ├─ Q1/                             # 제공 2장
 │  ├─ Q2/                             # 제공 3장
@@ -124,11 +128,13 @@ IS_ws/
 │  ├─ report_evaluation.py
 │  ├─ evaluate_project_results.py
 │  ├─ plot_project_scores.py
-│  ├─ test_evaluation.py
-│  └─ test_project_evaluation.py
-├─ research/
-│  └─ stitching_comparison.html       # 초기 조사·실험 설계 기록
-└─ results/
+│  └─ snapshots/                      # 방법별 동결 실행 소스
+├─ scripts/                           # 환경·저장소 확인, 데이터 압축 해제
+├─ third_party/                       # 공식 안내·참조 코드 서브모듈
+│  ├─ hpatches-dataset/
+│  ├─ udis-d/
+│  └─ udis2/
+└─ results/                           # 로컬 산출물, Git 제외
    ├─ brown+lowe/                     # baseline 5개 PNG
    ├─ RootSIFT/                       # 개선 방법별 5개 PNG
    ├─ MAGSAC++/
@@ -836,7 +842,7 @@ python3 -B experiments/plot_project_scores.py
 
 테스트 소스·호환 진입점·테스트용 CI 워크플로는 이후 저장소 정리 과정에서 삭제했다. 위 표는 삭제 전 수행한 검증의 기록이며, 현재 제공되는 테스트 실행 명령이 아니다.
 
-`research/stitching_comparison.html`이나 초기 `methods_validation.json`의 “벤치마크 미실행” 문구는 해당 파일 생성 시점의 기록이다. 이후 완료된 평가의 현재 상태는 `results/evaluation/` 및 `results/project_evaluation/`의 결과와 검증 파일을 따른다.
+`docs/research/stitching_comparison.html`이나 초기 `methods_validation.json`의 “벤치마크 미실행” 문구는 해당 파일 생성 시점의 기록이다. 이후 완료된 평가의 현재 상태는 `results/evaluation/` 및 `results/project_evaluation/`의 결과와 검증 파일을 따른다.
 
 <a id="16-presentation"></a>
 

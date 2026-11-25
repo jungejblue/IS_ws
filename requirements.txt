@@ -1,6 +1,4 @@
-# Portable CPU development environment, Python 3.10+.
-# Install ONE OpenCV wheel distribution; all distributions share the cv2 module.
-# These bounds are a development range, not the historical experiment lockfile.
+# Python 3.10+. Install only one OpenCV wheel distribution.
+# Development version range; historical measurements used OpenCV 4.5.4 / NumPy 1.26.4.
 numpy>=1.23,<2
 opencv-contrib-python-headless>=4.5.4,<4.12
-matplotlib>=3.5,<4

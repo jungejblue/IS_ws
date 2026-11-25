@@ -1,56 +1,17 @@
-# Python environments, caches, and local editor settings.
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.cache/
-.coverage
-.coverage.*
-coverage.xml
-htmlcov/
-.tox/
-.nox/
-.hypothesis/
-.ipynb_checkpoints/
-.eggs/
-*.egg-info/
-build/
-.idea/
-.vscode/
-.codex/
-.agents/
-.claude/
-.aws/
-.env
-.env.*
-!.env.example
-.DS_Store
-*.swp
-*.swo
-*~
-*.tmp
-*.bak
-*.part
-*.log
-tempCodeRunnerFile.py
+# Allow only the public repository structure at the root.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/Agents.md
+!/requirements.txt
+!/run.py
+!/stitching.py
+!/data/
+!/docs/
+!/third_party/
 
-# Test code was removed; prevent accidental reintroduction of local test files.
-tests/
-test_*.py
-*_test.py
-/.github/workflows/checks.yml
-
-# Machine-specific configuration and submission bundles.
-*.local.yaml
-*.local.yml
-*.local.json
-*.local.toml
-/team*.zip
-
-# Track Q1/Q2/Q3 input photos; keep benchmarks and other data local.
+# Input photographs and data preparation metadata only.
 /data/*
 !/data/README.md
 !/data/benchmark_sources.json
@@ -61,23 +22,32 @@ test_*.py
 !/data/Q[123]/*.[pP][nN][gG]
 !/data/Q[123]/*.[bB][mM][pP]
 
-# New runs, scratch files and submission archives are local artifacts.
-/tmp/
-/outputs/
-/submission/
-/dist/
-# All generated stitching/evaluation artifacts, without per-method exceptions.
-/results/
-/result/
-/artifacts/
-/reports/
-*_result.png
-*_run.log
-*_status.json
+# Four documents and the original assignment materials.
+/docs/*
+!/docs/algorithm.md
+!/docs/benchmarks.md
+!/docs/benchmark_results.md
+!/docs/mission_results.md
+!/docs/assignment/
 
-# Only declared upstream submodules and their guide belong in third_party.
+# Local clones are never submodules or tracked vendor code.
 /third_party/*
 !/third_party/README.md
-!/third_party/hpatches-dataset
-!/third_party/udis-d
-!/third_party/udis2
+
+# Generated stitching images stay local.
+/results/
+
+# Ignore caches and generated files at any depth.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+*.tmp
+*.part
+*.bak
+*.log
+*.zip
+*.tar
+*.tar.gz
+.DS_Store
+*~

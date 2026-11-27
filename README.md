@@ -210,6 +210,10 @@ python -B stitching.py --task evaluate --case F06 F07 R03 D03 \
 - [벤치마크와 평가 지표](docs/benchmarks.md)
 - [외부 벤치마크 결과](docs/benchmark_results.md)
 - [프로젝트 미션 결과](docs/mission_results.md)
+- [HDY의 Q1·Q2·Q3·E1·E2 결과](docs/hdy_mission_results.md)
+- [HDY의 8방법 비교 결과](docs/hdy_method_comparison.md)
 - [프로젝트 공지](docs/assignment/이미지스티칭_프로젝트_안내.pdf)
 
-생성 결과, 압축 파일, 벤치마크 clone 및 데이터는 강제로 Git에 추가하지 않습니다. 변경한 코드의 검증 산출물도 작업이 끝나면 제거하고, 유지할 측정값은 두 결과 Markdown 문서에 정리합니다.
+`stitching_hdy.py`는 HDY의 미션별 선택 코드입니다(Q1 Brown–Lowe, Q2 RootSIFT·MAGSAC, Q3·E1·E2 APAP식 국소 보정). `run_hdy.py --q all`로 확인할 수 있습니다. HDY의 완성 사진 5장 ZIP은 Git 밖에서 별도 공유합니다. 외부 벤치마크를 이 코드로 측정한 결과는 없습니다.
+
+생성 결과, 압축 파일, 벤치마크 clone 및 데이터는 강제로 Git에 추가하지 않습니다. 변경한 코드의 검증 산출물도 작업이 끝나면 제거하고, 유지할 측정값은 `docs/`의 결과 Markdown 문서에 정리합니다.

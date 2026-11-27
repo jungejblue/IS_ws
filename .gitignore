@@ -7,6 +7,8 @@
 !/requirements.txt
 !/run.py
 !/stitching.py
+!/run_hdy.py
+!/stitching_hdy.py
 !/data/
 !/docs/
 !/third_party/
@@ -28,6 +30,8 @@
 !/docs/benchmarks.md
 !/docs/benchmark_results.md
 !/docs/mission_results.md
+!/docs/hdy_mission_results.md
+!/docs/hdy_method_comparison.md
 !/docs/assignment/
 
 # Local clones are never submodules or tracked vendor code.

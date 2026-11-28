@@ -135,7 +135,7 @@ def _compose(layers, blend):
 
 
 def q1(img_paths):
-    """Two planar images: SIFT, RANSAC homography, multiband composition."""
+    """Two planar images: SIFT, RANSAC homography, hard composition."""
     images = _read(img_paths, 2)
     edges = _edges(images, [(0, 1)])
     if len(edges) != 1:
@@ -164,7 +164,7 @@ def q1(img_paths):
         valid = cv2.warpPerspective(mask, transform, (width, height),
                                     flags=cv2.INTER_NEAREST)
         layers.append((warped, valid, np.array([0, 0], np.int32)))
-    return _compose(layers, blend=True)
+    return _compose(layers, blend=False)
 
 
 def _rotation_from_homography(homography, intrinsic):
@@ -334,11 +334,11 @@ def _surface_stitch(paths, count, projection, blend):
 
 
 def q2(img_paths):
-    return _surface_stitch(img_paths, 3, "cylindrical", blend=True)
+    return _surface_stitch(img_paths, 3, "cylindrical", blend=False)
 
 
 def q3(img_paths):
-    return _surface_stitch(img_paths, 8, "cylindrical", blend=True)
+    return _surface_stitch(img_paths, 8, "cylindrical", blend=False)
 
 
 def e1(img_paths):

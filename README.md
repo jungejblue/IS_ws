@@ -214,6 +214,6 @@ python -B stitching.py --task evaluate --case F06 F07 R03 D03 \
 - [HDY의 8방법 비교 결과](docs/hdy_method_comparison.md)
 - [프로젝트 공지](docs/assignment/이미지스티칭_프로젝트_안내.pdf)
 
-`stitching_hdy.py`는 SIFT·양방향 비율 매칭·RANSAC을 공통으로 사용하는 단일 파일입니다. Q1은 평면 호모그래피, Q2·Q3는 공동 카메라 회전 추정과 원통 투영, E1·E2는 같은 회전 추정과 구면 투영을 씁니다. Q1·Q2·Q3·E2는 멀티밴드 블렌딩, E1은 블렌딩 없는 연결입니다. `run_hdy.py --q all`로 확인할 수 있습니다. 새 코드의 RMSE·SSIM은 아직 재측정하지 않았으며 완성 사진 ZIP은 Git 밖에서 별도 공유합니다.
+`stitching_hdy.py`는 SIFT·양방향 비율 매칭·RANSAC을 공통으로 사용하는 단일 파일입니다. Q1은 평면 호모그래피, Q2·Q3는 공동 카메라 회전 추정과 원통 투영, E1·E2는 같은 회전 추정과 구면 투영을 씁니다. Q1·Q2·Q3·E1은 블렌딩 없이 연결하고, 과제의 `+ blending` 단계인 E2에만 5밴드 멀티밴드 블렌딩을 적용합니다. `run_hdy.py --q all`로 확인할 수 있습니다. 새 코드의 RMSE·SSIM은 아직 재측정하지 않았으며 완성 사진 ZIP은 Git 밖에서 별도 공유합니다.
 
 생성 결과, 압축 파일, 벤치마크 clone 및 데이터는 강제로 Git에 추가하지 않습니다. 변경한 코드의 검증 산출물도 작업이 끝나면 제거하고, 유지할 측정값은 `docs/`의 결과 Markdown 문서에 정리합니다.

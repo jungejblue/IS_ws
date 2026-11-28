@@ -243,8 +243,19 @@ def render_sphere(layers, *, use_graphcut=False, make_blend=True):
         region = np.s_[y:y + h, x:x + w]
         owns = labels[region] == i
         base[region][owns] = image[owns]
-        if make_blend:
+        if make_blend and owns.any():
             seam_mask = cv2.dilate(owns.astype(np.uint8) * 255, kernel) & mask
+            valid = mask > 0
+            if not valid.all():
+                # Fill warp padding before building the Laplacian pyramid so
+                # black outside the image cannot darken the blended boundary.
+                _, nearest = cv2.distanceTransformWithLabels(
+                    (~valid).astype(np.uint8), cv2.DIST_L2, 5,
+                    labelType=cv2.DIST_LABEL_PIXEL,
+                )
+                colors = np.empty((int(nearest.max()) + 1, 3), dtype=image.dtype)
+                colors[nearest[valid]] = image[valid]
+                image = colors[nearest]
             blender.feed(image.astype(np.int16), seam_mask, (x, y))
     blended = None
     if make_blend:
